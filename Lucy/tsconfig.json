@@ -2,8 +2,8 @@
   "include": ["src"],
   "compilerOptions": {
     "target": "esnext",
-    "module": "esnext",
     "outDir": "dist",
+    "module": "esnext",
     "strict": true,
     "moduleDetection": "force"
   }
