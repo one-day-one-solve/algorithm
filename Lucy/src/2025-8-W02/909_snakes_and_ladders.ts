@@ -3,10 +3,12 @@ function snakesAndLadders(board: number[][]): number {
   const target = n * n;
 
   const getCoordinates = (square: number): [number, number] => {
+    // calculate row
     const rowFromBottom = Math.floor((square - 1) / n);
     const row = n - 1 - rowFromBottom;
 
-    if (rowFromBottom % 2 === 0) {
+    // calculate col
+    if (row % 2 === (n - 1) % 2) {
       const col = (square - 1) % n;
       return [row, col];
     } else {
@@ -15,34 +17,28 @@ function snakesAndLadders(board: number[][]): number {
     }
   };
 
-  // BFS를 위한 큐. [현재 칸, 주사위 굴린 횟수]
+  // [currSquare, moveCount]
   const queue: [number, number][] = [[1, 0]];
 
   const visited = new Set<number>();
   visited.add(1);
 
   while (queue.length > 0) {
-    const [currentSquare, moves] = queue.shift()!;
+    const [currSquare, moveCount] = queue.shift()!;
 
-    // 주사위를 1부터 6까지 굴립니다.
     for (let i = 1; i <= 6; i++) {
-      let nextSquare = currentSquare + i;
+      const nextSquare = currSquare + i;
 
-      if (nextSquare > target) {
-        break;
-      }
+      if (nextSquare > target) break;
 
-      const [row, col] = getCoordinates(nextSquare);
+      const [nextRow, nextCol] = getCoordinates(nextSquare);
+      const destination = board[nextRow][nextCol] === -1 ? nextSquare : board[nextRow][nextCol];
 
-      const destination = board[row][col] === -1 ? nextSquare : board[row][col];
-
-      if (destination === target) {
-        return moves + 1;
-      }
+      if (destination === target) return moveCount + 1;
 
       if (!visited.has(destination)) {
         visited.add(destination);
-        queue.push([destination, moves + 1]);
+        queue.push([destination, moveCount + 1]);
       }
     }
   }
