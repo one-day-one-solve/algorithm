@@ -15,8 +15,6 @@
 function cloneGraph(node: _Node | null): _Node | null {
   if (!node) return null;
 
-  const result: _Node | null = null;
-
   const cloneMap = new Map<number, _Node>();
   const queue: _Node[] = [];
 
@@ -26,7 +24,7 @@ function cloneGraph(node: _Node | null): _Node | null {
 
   while (queue.length > 0) {
     const currentOriginal = queue.shift()!;
-    const currentClone = cloneMap.get(currentOriginal.val)!;
+    const currentClone: _Node = cloneMap.get(currentOriginal.val)!;
 
     for (const originalNeighbor of currentOriginal.neighbors) {
       if (!cloneMap.has(originalNeighbor.val)) {
@@ -37,7 +35,7 @@ function cloneGraph(node: _Node | null): _Node | null {
         queue.push(originalNeighbor);
       }
 
-      const neighborClone = cloneMap.get(originalNeighbor.val);
+      const neighborClone: _Node = cloneMap.get(originalNeighbor.val);
 
       currentClone.neighbors.push(neighborClone);
     }
